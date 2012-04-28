@@ -19,9 +19,11 @@ public class HiveServiceBAction {
   public void runAction(String [] args) throws TTransportException,
           HiveServerException, TException{
     Properties props = System.getProperties();
-    ServiceHive service = new ServiceHive(props.getProperty(HIVE_SERVICE_HOST)
-            ,Integer.parseInt(HIVE_SERVICE_PORT));
-    for (String arg : args){
+    ServiceHive service = new ServiceHive(args[0]
+            ,Integer.parseInt(args[1])
+    );
+    for (int i=2;i<args.length;i++){
+      String arg = args[i];
       service.client.execute(arg);
       List<String> results = service.client.fetchAll();
       for (String result : results){
