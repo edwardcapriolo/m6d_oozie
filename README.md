@@ -31,3 +31,47 @@ of these problems are addressed by the hive thrift service. The HiveServiceBActi
     </action>
 
 The action accepts three or more arguments. The first argument is the host, the second is the port, and all remaining arguments are treated as individual commands sent to hive thirft service for execution.
+
+Usage:
+  Put all $hive_home/lib/*.jar, hive_test.jar , and m6d_oozie.jar in your oozie projects lib folder.  
+
+Run Shell
+----------
+
+ Run shell forks a shell process and records it's input and output.
+
+    <java>
+      <job-tracker>${jobTracker}</job-tracker>
+        <name-node>${nameNode}</name-node>
+        <configuration>
+          <property>
+            <name>mapred.job.queue.name</name>
+            <value>${queueName}</value>
+          </property>
+        </configuration>
+        <main-class>test.RunShell2</main-class>
+        <arg>/bin/echo</arg>
+        <arg>You said ${wf:actionData('create_table')['x']}</arg>
+    </java>
+
+Run Shell Props
+------------
+
+Runs shell commands and produces output to a properties file. This works with
+oozies capture output capability to bring the variable back into the workflow.
+
+    <java>
+      <job-tracker>${jobTracker}</job-tracker>
+      <name-node>${nameNode}</name-node>
+      <configuration>
+        <property>
+          <name>mapred.job.queue.name</name>
+          <value>${queueName}</value>
+        </property>
+      </configuration>
+      <main-class>test.RunShellProp</main-class>
+      <arg>/bin/echo</arg>
+      <arg>x=5</arg>
+      <capture-output />
+    </java>
+
